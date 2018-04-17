@@ -1,0 +1,79 @@
+* {
+  background-color: #FAFAFA;
+  box-sizing: border-box;
+  font-size: 24px;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  color: #212121;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  font-size: 72px;
+  padding: 25px;
+  text-align: center;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.container {
+  margin: 100px 0;
+}
+
+.container > div {
+  display: inline-block;
+  text-align: center;
+  width: 40%;
+}
+
+.container p, .container span {
+  padding: 10px;
+}
+
+.container button {
+  background-color: inherit;
+  border: none;
+}
+
+.controls {
+  text-align: center;
+}
+
+.controls button {
+  border: 2px solid #616161;
+  border-radius: 5px;
+  color: #212121;
+  margin: 25px;
+  padding: 10px;
+  text-transform: uppercase;
+}
+
+.controls button:hover {
+  background-color: #EEEEEE;
+  border-color: #212121;
+}
+
+.container > .clock {
+  color: #1B5E20;
+  font-size: 72px;
+  padding: 50px;
+  text-align: center;
+  width: 20%;
+}
+
+.clock.working {
+  color: #1B5E20;
+}
+
+.break-time {
+  color: #B71C1C;
+}
+
+.work-time {
+  color: #1B5E20;
+}
