@@ -3,6 +3,7 @@ const pomodoro = {
   breakTime: 5 * 60,  // Default break time of 5 minutes
 
   working: true,
+  counting: false,
 
   breakTimeElement: document.querySelector('.break-time span'),
   clockElement: document.querySelector('.clock'),
@@ -57,18 +58,30 @@ const pomodoro = {
     this.setTime(this.workTimeElement, this.workTime);
   },
 
-  init: function() {
+  init: function(addTriggers) {
     this.currentTime = this.workTime;
 
     this.setTime(this.clockElement, this.currentTime);
     this.setTime(this.breakTimeElement, this.breakTime);
     this.setTime(this.workTimeElement, this.workTime);
 
-    this.attachEventHandlers();
+    if (addTriggers) {
+      this.attachEventHandlers();
+    }
   },
 
   reset: function() {
-    console.log("RESET");
+    this.counting = false;
+    this.working = true;
+    this.workTime = 25 * 60;
+    this.breakTime = 5 * 60;
+
+    if (this.interval) {
+      clearInterval(this.interval);
+      this.startButton.textContent = 'Start';
+    }
+    
+    this.init(false);
   },
 
   setTime: function(element, time) {
@@ -76,7 +89,15 @@ const pomodoro = {
   },
 
   start: function() {
-    this.interval = setInterval(this.updateTime.bind(this), 1000);
+    if (this.counting) {
+      clearInterval(this.interval);
+      this.startButton.textContent = 'Start';
+      this.counting = false;
+    } else {
+      this.interval = setInterval(this.updateTime.bind(this), 1000);
+      this.startButton.textContent = 'Stop';
+      this.counting = true;
+    }
   },
 
   updateTime: function() {
@@ -93,4 +114,4 @@ const pomodoro = {
   }
 };
 
-pomodoro.init();
+pomodoro.init(true);
