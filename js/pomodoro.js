@@ -28,16 +28,26 @@ const pomodoro = {
   },
 
   decrementBreakTime: function() {
-    if (this.breakTime > 60) {
+    if (!this.counting && this.breakTime > 60) {
       this.breakTime -= 60;
       this.setTime(this.breakTimeElement, this.breakTime);
+
+      if (!this.working) {
+        this.currentTime = this.breakTime;
+        this.setTime(this.clockElement, this.currentTime);
+      }
     }
   },
 
   decrementWorkTime: function() {
-    if (this.workTime > 60) {
+    if (!this.counting && this.workTime > 60) {
       this.workTime -= 60;
       this.setTime(this.workTimeElement, this.workTime);
+
+      if (this.working) {
+        this.currentTime = this.workTime;
+        this.setTime(this.clockElement, this.currentTime);
+      }
     }
   },
 
@@ -49,13 +59,27 @@ const pomodoro = {
   },
 
   incrementBreakTime: function() {
-    this.breakTime += 60;
-    this.setTime(this.breakTimeElement, this.breakTime);
+    if (!this.counting) {
+      this.breakTime += 60;
+      this.setTime(this.breakTimeElement, this.breakTime);
+
+      if (!this.working) {
+        this.currentTime = this.breakTime;
+        this.setTime(this.clockElement, this.currentTime);
+      }
+    }
   },
 
   incrementWorkTime: function() {
-    this.workTime += 60;
-    this.setTime(this.workTimeElement, this.workTime);
+    if (!this.counting) {
+      this.workTime += 60;
+      this.setTime(this.workTimeElement, this.workTime);
+
+      if (this.working) {
+        this.currentTime = this.workTime;
+        this.setTime(this.clockElement, this.currentTime);
+      }
+    }
   },
 
   init: function(addTriggers) {
@@ -80,7 +104,7 @@ const pomodoro = {
       clearInterval(this.interval);
       this.startButton.textContent = 'Start';
     }
-    
+
     this.init(false);
   },
 
@@ -102,6 +126,19 @@ const pomodoro = {
 
   updateTime: function() {
     this.currentTime -= 1;
+
+    if (this.currentTime == 0) {
+      if (this.working) {
+        this.currentTime = this.breakTime;
+        this.working = false;
+        this.clockElement.classList.remove('working');
+      } else {
+        this.currentTime = this.workTime;
+        this.working = true;
+        this.clockElement.classList.add('working');
+      }
+    }
+
     this.setTime(this.clockElement, this.currentTime);
   },
 
